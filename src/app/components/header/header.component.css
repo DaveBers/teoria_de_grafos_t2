@@ -1,0 +1,11 @@
+.navbar{
+    background-color: #1a53b3;
+    padding: 20px;
+    text-align: center;
+}
+
+.nav_title{
+    color: azure;
+    font-weight: bold;
+    font-size: 20pt;
+}
