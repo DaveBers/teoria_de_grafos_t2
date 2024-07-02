@@ -1,38 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit} from '@angular/core';
+import { GraphService } from '../../services/graph.service';
 
 @Component({
   selector: 'app-forms',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.css'
 })
-export class FormsComponent {
 
-}
+export class FormsComponent implements OnInit {
+  capitals: string[] = [];
+  start: string = '';
+  end: string = '';
+  path: string[] = [];
 
-interface info{
-  capitalOrigem: string;
-  capitalDestino: string;
-  precoCombustivel: number;
-  autonomiaKm: number;
-}
+  constructor(private graphService: GraphService) {}
 
-function getInfo (): info {
-  const capitalOrigem = (document.getElementById('capital_origem') as HTMLInputElement).value;
-  const capitalDestino = (document.getElementById('capital_destino') as HTMLInputElement).value;
-  const precoCombustivel = parseFloat((document.getElementById('preco_combustivel') as HTMLInputElement).value);
-  const autonomiaKm = parseFloat((document.getElementById('autonomia_km') as HTMLInputElement).value);
+  ngOnInit(): void {
+    this.graphService.getCapitals().subscribe((data) => {
+      this.capitals = data.map((capital) => capital.name);
+    });
+  }
 
-  if (isNaN(precoCombustivel) || isNaN(autonomiaKm)) {
-    throw new Error("Preço do combustível e Autonomia Km/l devem ser números.");
-}
-
-return {
-    capitalOrigem,
-    capitalDestino,
-    precoCombustivel,
-    autonomiaKm
-};
-
+  findPath(): void {
+    this.path = this.graphService.findCheapestPath(this.start, this.end);
+  }
 }
