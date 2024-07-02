@@ -6,22 +6,23 @@ import { Capital, Neighbor } from '../models/graph.model';
 @Injectable({
   providedIn: 'root',
 })
+
 export class GraphService {
   private capitalsUrl = 'assets/capitais.json';
   private graph: Map<string, Capital> = new Map();
-
+  
   constructor(private http: HttpClient) {
     this.loadCapitals();
   }
 
   private loadCapitals(): void {
-    this.http.get<Capital[]>(this.capitalsUrl).subscribe((data) => {
+    this.http.get<Capital[]>('/assets/capitais.json').subscribe((data) => {
       data.forEach((capital) => this.graph.set(capital.name, capital));
     });
   }
 
   getCapitals(): Observable<Capital[]> {
-    return this.http.get<Capital[]>(this.capitalsUrl);
+    return this.http.get<Capital[]>('/assets/capitais.json');
   }
 
   findCheapestPath(start: string, end: string): string[] {
