@@ -1,13 +1,22 @@
 <div class="form_box">
-    <form action="" class="form">
-        <label for="capital_origem">Capital de Origem</label>
-        <input type="text" placeholder="Insira a capital de origem...">
-        <label for="capital_destino">Capital Destino</label>
-        <input type="text" placeholder="Insira a capital de destino...">
-        <label for="preco_combustivel">Preço do combustível</label>
-        <input type="text" placeholder="Insira o preço do combustível...">
-        <label for="autonomia_km">Autonomia Km/l</label>
-        <input type="text" placeholder="Insira a autonomia do carro...">
-        <button>Submit</button>
+    <form (ngSubmit)="onSubmit()" class="form">
+      <label for="capital_origem">Capital de Origem</label>
+      <input type="text" id="capital_origem" [(ngModel)]="tripData.capitalOrigem" name="capitalOrigem" placeholder="Insira a capital de origem...">
+      
+      <label for="capital_destino">Capital Destino</label>
+      <input type="text" id="capital_destino" [(ngModel)]="tripData.capitalDestino" name="capitalDestino" placeholder="Insira a capital de destino...">
+      
+      <label for="preco_combustivel">Preço do combustível</label>
+      <input type="text" id="preco_combustivel" [(ngModel)]="tripData.precoCombustivel" name="precoCombustivel" placeholder="Insira o preço do combustível...">
+      
+      <label for="autonomia_km">Autonomia Km/l</label>
+      <input type="text" id="autonomia_km" [(ngModel)]="tripData.autonomiaKm" name="autonomiaKm" placeholder="Insira a autonomia do carro...">
+      
+      <button type="submit">Calcular</button>
     </form>
-</div>
+  
+    <div *ngIf="result">
+      <h3>Resultado da Busca</h3>
+      <pre>{{ result | json }}</pre>
+    </div>
+  </div>
