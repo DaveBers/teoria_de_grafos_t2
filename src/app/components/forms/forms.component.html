@@ -1,22 +1,30 @@
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
 <div class="form_box">
-    <form (ngSubmit)="onSubmit()" class="form">
+  <div class="form">
+    <form (ngSubmit)="onSubmit()">
       <label for="capital_origem">Capital de Origem</label>
-      <input type="text" id="capital_origem" [(ngModel)]="tripData.capitalOrigem" name="capitalOrigem" placeholder="Insira a capital de origem...">
+      <input type="text" [(ngModel)]="tripData.capitalOrigem" name="capitalOrigem" placeholder="Insira a capital de origem...">
       
       <label for="capital_destino">Capital Destino</label>
-      <input type="text" id="capital_destino" [(ngModel)]="tripData.capitalDestino" name="capitalDestino" placeholder="Insira a capital de destino...">
+      <input type="text" [(ngModel)]="tripData.capitalDestino" name="capitalDestino" placeholder="Insira a capital de destino...">
       
-      <label for="preco_combustivel">Preço do combustível</label>
-      <input type="text" id="preco_combustivel" [(ngModel)]="tripData.precoCombustivel" name="precoCombustivel" placeholder="Insira o preço do combustível...">
+      <label for="preco_combustivel">Preço do combustível (R$)</label>
+      <input type="number" format="currency" precision="2" [(ngModel)]="tripData.precoCombustivel" name="precoCombustivel" placeholder="Insira o preço do combustível...">
       
       <label for="autonomia_km">Autonomia Km/l</label>
-      <input type="text" id="autonomia_km" [(ngModel)]="tripData.autonomiaKm" name="autonomiaKm" placeholder="Insira a autonomia do carro...">
+      <input type="number" [(ngModel)]="tripData.autonomiaKm" name="autonomiaKm" placeholder="Insira a autonomia do carro...">
       
-      <button type="submit">Calcular</button>
+      <button type="submit">Calcular Rota</button>
+      
     </form>
-  
-    <div *ngIf="result">
-      <h3>Resultado da Busca</h3>
-      <pre>{{ result | json }}</pre>
-    </div>
   </div>
+  
+  <div *ngIf="result" class="result">
+    <p><strong>Caminho:</strong> {{ result.path.join(' -> ') }}</p>
+    <p><strong>Distância Total:</strong> {{ result.distance }} km</p>
+    <p><strong>Custo de Combustível:</strong> R$ {{ result.custoCombustivel.toFixed(2) }}</p>
+    <p><strong>Total de Pedágios:</strong> R$ {{ result.totalToll.toFixed(2) }}</p>
+    <p><strong>Custo Total:</strong> R$ {{ result.custoTotal.toFixed(2) }}</p>
+  </div>
+</div>
